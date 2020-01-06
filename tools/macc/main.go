@@ -12,15 +12,33 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
-
-	"github.com/cloustone/macaca/repl"
 )
 
+var (
+	sourceFile string
+)
+
+func init() {
+	flag.StringVar(&sourceFile, "f", "", "macaca source file")
+}
+
 func main() {
+	flag.Parse()
 	fmt.Println("This is the macaca programming language!")
 
-	fmt.Println("Feel free to type in commands")
-	repl.Start(os.Stdin, os.Stdout)
+	if sourceFile == "" {
+		fmt.Println("macaca source file must be specified")
+		flag.Usage()
+		return
+	}
+	f, err := os.OpenFile(sourceFile, os.O_RDONLY, 0600)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer f.Close()
+	Run(f, os.Stdout)
 }
