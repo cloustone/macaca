@@ -11,7 +11,9 @@
 //  under the License.
 package lexer
 
-import "github.com/cloustone/macaca/token"
+import (
+	"github.com/cloustone/macaca/token"
+)
 
 type Lexer struct {
 	input        string
@@ -20,6 +22,7 @@ type Lexer struct {
 	ch           byte // current char under examination
 }
 
+// New create a lexter with repl string input
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -65,7 +68,14 @@ func (l *Lexer) NextToken() token.Token {
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case ':':
-		tok = newToken(token.COLON, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.DECLARE, Literal: literal}
+		} else {
+			tok = newToken(token.COLON, l.ch)
+		}
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
 	case '{':

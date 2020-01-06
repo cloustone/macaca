@@ -1,4 +1,4 @@
-let name = "Monkey";
+let name = "macaca";
 let age = 1;
 let inspirations = ["Scheme", "Lisp", "JavaScript", "Clojure"];
 let book = {

@@ -1,2 +1,2 @@
 # macaca
-A new language based on Monkey language
+A new language based on macaca language

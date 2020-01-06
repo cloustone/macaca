@@ -12,19 +12,36 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"github.com/cloustone/macaca/repl"
 	"os"
-	"os/user"
+
+	"github.com/cloustone/macaca/repl"
 )
 
+var (
+	sourceFile string
+)
+
+func init() {
+	flag.StringVar(&sourceFile, "f", "", "macaca source file")
+}
+
 func main() {
-	user, err := user.Current()
-	if err != nil {
-		panic(err)
+	flag.Parse()
+
+	fmt.Println("This is the macaca programming language!")
+
+	if sourceFile == "" {
+		fmt.Println("Feel free to type in commands")
+		repl.Start(os.Stdin, os.Stdout)
+	} else {
+		f, err := os.OpenFile(sourceFile, os.O_RDONLY, 0600)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		defer f.Close()
+		repl.Start(f, os.Stdout)
 	}
-	fmt.Printf("Hello %s! This is the Monkey programming language!\n",
-		user.Username)
-	fmt.Printf("Feel free to type in commands\n")
-	repl.Start(os.Stdin, os.Stdout)
 }

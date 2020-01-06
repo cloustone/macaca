@@ -1,4 +1,4 @@
-name := "Monkey"
+name := "macaca"
 age := 1
 inspirations := ["Scheme", "Lisp", "JavaScript", "Clojure"]
 book := {

@@ -15,11 +15,11 @@ build: macaca benchmark
 .PHONY: macaca 
 macaca: 
 	@echo "building macaca..."
-	$Q CGO_ENABLED=0 go build -v -o bin/macaca $(IMPORTPATH)/
+	$Q CGO_ENABLED=0 go build -v 
 
 .PHONY: benchmark 
 benchmark: 
 	@echo "building benchmark..."
-	$Q CGO_ENABLED=0 go build -v -o bin/macaca-benchmark $(IMPORTPATH)/benchmark
+	$Q CGO_ENABLED=0 go build -v -o bin/macaca-benchmark $(IMPORTPATH)/tools/benchmark
 
 
