@@ -13,10 +13,11 @@ package parser
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/cloustone/macaca/ast"
 	"github.com/cloustone/macaca/lexer"
 	"github.com/cloustone/macaca/token"
-	"strconv"
 )
 
 const (
@@ -128,13 +129,13 @@ func (p *Parser) Errors() []string {
 }
 
 func (p *Parser) peekError(t token.TokenType) {
-	msg := fmt.Sprintf("expected next token to be %s, got %s instead",
-		t, p.peekToken.Type)
+	msg := fmt.Sprintf("line '%d' expected next token to be %s, got %s instead",
+		p.curToken.Lineno, t, p.peekToken.Type)
 	p.errors = append(p.errors, msg)
 }
 
 func (p *Parser) noPrefixParseFnError(t token.TokenType) {
-	msg := fmt.Sprintf("no prefix parse function for %s found", t)
+	msg := fmt.Sprintf("line '%d': no prefix parse function for %s found", p.curToken.Lineno, t)
 	p.errors = append(p.errors, msg)
 }
 
